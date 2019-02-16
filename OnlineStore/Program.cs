@@ -29,7 +29,12 @@ namespace OnlineStore
             using (var scope = scopeFactory.CreateScope())
             {
                 var seeder = scope.ServiceProvider.GetService<StoreSeeder>();
-                seeder.SeedAsync().Wait();
+                try{
+                    seeder.SeedAsync().Wait();
+                }
+                catch(Exception ex) {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
 

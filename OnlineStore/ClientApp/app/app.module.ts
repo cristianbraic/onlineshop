@@ -3,15 +3,15 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
-import { ProductList } from "./shop/productList.component";
-import { Cart } from "./shop/cart.component";
+import { ProductList } from "./shop/products/productList.component";
+import { Cart } from "./shop/cart/cart.component";
 import { Shop } from "./shop/shop.component";
 import { Checkout } from "./checkout/checkout.component";
 import { Login } from "./login/login.component";
 import { DataService } from "./shared/dataService";
 
 import { RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule  } from "@angular/forms";
 
 let routes = [
     { path: "", component: Shop },
@@ -32,6 +32,7 @@ let routes = [
       BrowserModule,
       HttpClientModule,
       FormsModule,
+      ReactiveFormsModule,
       RouterModule.forRoot(routes, {
           useHash: true,
           enableTracing:false //for debugging

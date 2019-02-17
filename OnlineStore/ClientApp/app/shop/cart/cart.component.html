@@ -1,0 +1,21 @@
+﻿<h3>Cos de cumparaturi</h3>
+<div>Subtotal: {{data.order.subtotal}} lei</div>
+<table class="table table-condensed table-hover">
+    <thead>
+        <tr>
+            <td>Produs</td>
+            <td>#</td>
+            <td>Pret</td>
+            <td>Total</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let o of data.order.items">
+            <td>{{o.productTitle}}</td>
+            <td>{{o.quantity}}</td>
+            <td>{{o.unitPrice}} lei</td>
+            <td>{{(o.unitPrice * o.quantity)}} lei</td>
+        </tr>
+    </tbody>
+</table>
+<button class="btn btn-success" *ngIf="data.order.items.length > 0" (click)="onCheckout()">Pasul urmator</button>

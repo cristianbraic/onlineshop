@@ -17,13 +17,14 @@ var Cart = /** @class */ (function () {
             this.router.navigate(["checkout"]);
         }
     };
+    var _a;
     Cart = tslib_1.__decorate([
         Component({
             selector: "the-cart",
             templateUrl: "cart.component.html",
             styleUrls: []
         }),
-        tslib_1.__metadata("design:paramtypes", [DataService, Router])
+        tslib_1.__metadata("design:paramtypes", [DataService, typeof (_a = typeof Router !== "undefined" && Router) === "function" ? _a : Object])
     ], Cart);
     return Cart;
 }());

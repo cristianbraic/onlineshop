@@ -12,6 +12,7 @@ namespace OnlineStore.Data
         IEnumerable<Order> GetAllOrdersByUser(string username, bool includeItems);
         Order GetOrderById(string username, int id);
         void AddOrder(Order newOrder);
+        void AddProduct(Product newProduct);
 
         bool SaveAll();
         void AddEntity(object model);

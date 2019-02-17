@@ -26,6 +26,8 @@ var Login = /** @class */ (function () {
             }
         }, function (err) { return _this.errorMessage = "Autentificare nereusita"; });
     };
+    Login.prototype.onRegister = function () {
+    };
     Login = tslib_1.__decorate([
         Component({
             selector: "login",

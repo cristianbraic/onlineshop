@@ -7,30 +7,82 @@
     <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
 }
 
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
-            <div class="form-group">
-                <label asp-for="Username">Nume utizator</label>
-                <input asp-for="Username" class="form-control"/>
-                <span asp-validation-for="Username" class="text-error"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password">Parola</label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-error"></span>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
-                    <label asp-for="RememberMe" class="form-check-label">Tine-ma minte</label>
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="form-group">
+                    <label asp-for="Username">Nume utizator</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-error"></span>
                 </div>
-                <span asp-validation-for="RememberMe" class="text-warning"></span>
+                <div class="form-group">
+                    <label asp-for="Password">Parola</label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-error"></span>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+                        <label asp-for="RememberMe" class="form-check-label">Tine-ma minte</label>
+                    </div>
+                    <span asp-validation-for="RememberMe" class="text-warning"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Autentifica-te" class="btn btn-success" />
+                    <input type="submit" value="Inregistreaza-te" class="btn btn-success" data-toggle="modal" data-target="#registerModal" />
+                </div>
+            </form>
+        </div>
+
+        <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Creeaza-ti un cont</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        @using (@Html.BeginForm("Signup", "Account", FormMethod.Post))
+                        {
+                            @Html.ValidationSummary(true, "Registeration Failed, fields.");
+                            <div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" name="SignupModel.UserName" id="SignupModel.UserName" class="form-control" placeholder="Username">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" name="SignupModel.FirstName" id="SignupModel.FirstName" class="form-control" placeholder="Prenume">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" name="SignupModel.LastName" id="SignupModel.LastName" class="form-control" placeholder="Nume">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="email" name="SignupModel.Email" id="SignupModel.Email" class="form-control" placeholder="Email">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="tel" name="SignupModel.PhoneNumber" id="SignupModel.PhoneNumber" class="form-control" placeholder="Numar de telefon">
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <input type="text" name="SignupModel.Password" id="SignupModel.Password" class="form-control" placeholder="Parola">
+                                </div>
+
+                                <input type="submit" value="Signup" class="btn btn-success float-right" />
+
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Autentifica-te" class="btn btn-success" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>

@@ -1,0 +1,18 @@
+﻿
+.z_button {
+    background-color: #5cb85c;
+    height: 50px;
+    position: relative;
+    outline: 0;
+    display: block;
+    margin: -36px 0px 0px 10px;
+    color: #fff;
+    border-radius: 100%;
+    width: 50px;
+}
+
+.z_plus {
+    text-align: center;
+    line-height: 47px;
+    font-size: 30px;
+}

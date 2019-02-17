@@ -12,6 +12,8 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
+using AutoMapper;
+using OnlineStore.Data;
 
 namespace OnlineStore.Controllers
 {
@@ -21,17 +23,26 @@ namespace OnlineStore.Controllers
         private readonly SignInManager<StoreUser> _signInManager;
         private readonly UserManager<StoreUser> _userManager;
         private readonly IConfiguration _config;
+        private readonly IMapper _mapper;
+        private readonly StoreContext _ctx;
+        private readonly IStoreRepository _repository;
 
         public AccountController(
             ILogger<AccountController> logger,
             SignInManager<StoreUser> singInManager,
             UserManager<StoreUser> userManager,
-            IConfiguration config)
+            IConfiguration config,
+            IMapper mapper,
+            StoreContext ctx,
+            IStoreRepository repository)
         {
             _logger = logger;
             _signInManager = singInManager;
             _userManager = userManager;
             _config = config;
+            _mapper = mapper;
+            _ctx = ctx;
+            _repository = repository;
         }
 
         public IActionResult Login()
@@ -45,15 +56,16 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(AuthenticationViewModel model)
         {
             if (ModelState.IsValid)
             {
+                
                 var result = await _signInManager.PasswordSignInAsync(
-                    model.Username,
-                    model.Password,
-                    model.RememberMe,
-                    false);
+                            model.LoginModel.Username,
+                            model.LoginModel.Password,
+                            model.LoginModel.RememberMe,
+                            false);
                 if (result.Succeeded)
                 {
                     if (Request.Query.Keys.Contains("ReturnUrl"))
@@ -67,8 +79,9 @@ namespace OnlineStore.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Autentificare nereusita"); 
+                    ModelState.AddModelError("", "Autentificare nereusita");
                 }
+                
             }
 
             return View();
@@ -125,6 +138,40 @@ namespace OnlineStore.Controllers
 
             }
             return BadRequest();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Signup(AuthenticationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(model.SignUpModel.UserName);
+
+                if (user != null)
+                {
+                    ModelState.AddModelError("", "Username already exists!");
+                    return View();
+                }
+
+                user = new StoreUser()
+                {
+                    FirstName = model.SignUpModel.FirstName,
+                    LastName = model.SignUpModel.LastName,
+                    UserName = model.SignUpModel.UserName,
+                    Email = model.SignUpModel.Email
+                };
+
+                var result = await _userManager.CreateAsync(user, model.SignUpModel.Password);
+
+                if (result == IdentityResult.Success)
+                {
+                    _ctx.SaveChanges();
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            ModelState.AddModelError("", "Failed to register!");
+            return RedirectToAction("Login", "Account");
+
         }
 
 

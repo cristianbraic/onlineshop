@@ -11,3 +11,35 @@
         sa le bucure privirea si sufletul, sa transmita mesaje si emotii care sunt mai presus de cuvinte...
     </p>
 </div>
+<shop-map></shop-map>
+
+<style>
+    #map {
+        height: 600px;
+        width: 1100px;
+        margin-left: 25px;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="row">
+    <div id="map"></div>
+    <script>
+        var map;
+        function initMap() {
+            var myLatLng = { lat: 45.595790, lng: 25.463670 };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Hello World!'
+            });
+        }
+    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaC122s2lf4ENYZfNdF8PSJjGJmf6IboE&callback=initMap"></script>
+</div>

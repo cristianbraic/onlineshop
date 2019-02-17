@@ -36,6 +36,11 @@ namespace OnlineStore.Data
             AddEntity(newOrder);
         }
 
+        public void AddProduct(Product newProduct)
+        {
+            AddEntity(newProduct);
+        }
+
         public IEnumerable<Order> GetAllOrders( bool includeItems)
         {   
             if (includeItems)
@@ -75,9 +80,10 @@ namespace OnlineStore.Data
             try
             {
                 _logger.LogInformation("GetAllProducts was called");
-                return _ctx.Products
+                var products = _ctx.Products
                            .OrderBy(p => p.Title)
                            .ToList();
+                return products;
             }
             catch (Exception ex)
             {

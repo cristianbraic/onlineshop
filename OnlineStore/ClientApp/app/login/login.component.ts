@@ -28,4 +28,8 @@ export class Login {
                 }
             }, err => this.errorMessage = "Autentificare nereusita");
     }
+
+    onRegister() {
+
+    }
 }

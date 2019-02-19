@@ -65,6 +65,14 @@ var DataService = /** @class */ (function () {
             this.order.items.push(item);
         }
     };
+    DataService.prototype.addNewProduct = function (newProduct) {
+        return this.http.post("/api/products", newProduct, {
+            headers: new HttpHeaders().set("Authorization", "Bearer " + this.token)
+        }).pipe(map(function (response) {
+            console.log(response);
+            return true;
+        }));
+    };
     DataService = tslib_1.__decorate([
         Injectable(),
         tslib_1.__metadata("design:paramtypes", [HttpClient])

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using OnlineStore.Data;
 using Microsoft.Extensions.Logging;
@@ -48,30 +44,19 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ProductViewModel model)
+        public IActionResult AddProduct([FromBody]ProductViewModel model)
         {
-            try
-            {
-
                 if (ModelState.IsValid)
                 {
                     var newProduct = _mapper.Map<ProductViewModel, Product>(model);
-                    _repository.AddProduct(newProduct);
-                    if (_repository.SaveAll())
-                    {
-                        return Created($"/api/orders/{newProduct.Id}", _mapper.Map<Product, ProductViewModel>(newProduct));
-                    }
+                _repository.AddProduct(newProduct);
+                return Ok();
+                    
                 }
                 else
                 {
                     return BadRequest(ModelState);
                 }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Failed to save a new order: {ex}");
-            }
-            return BadRequest("Failed to save new order");
         }
     } 
 }

@@ -219,7 +219,7 @@ var Checkout = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-4 col-md-offset-4\">\r\n    <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{errorMessage}}</div>\r\n      <form (submit)=\"onLogin()\" #theForm=\"ngForm\" novalidate>\r\n      <div class=\"form-group\">\r\n        <label for=\"username\">Nume utilizator</label>\r\n        <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" #username=\"ngModel\" required />\r\n        <div class=\"text-danger\" *ngIf=\"username.touched && username.invalid && username.errors.required\">Numele utilizatorului este obligatoriu</div>\r\n      </div>\r\n      <div class=\"form-group\">\r\n          <label for=\"password\">Parola</label>\r\n          <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" #password=\"ngModel\" required />\r\n          <div class=\"text-danger\" *ngIf=\"password.touched && password.invalid && password.errors.required\">Parola este obligatorie</div>\r\n      </div>\r\n      <div class=\"form-group\">\r\n          <input type=\"submit\" class=\"btn btn-success\" value=\"Autentifica-te\" [disabled]=\"theForm.invalid\" />\r\n          <input type=\"submit\" class=\"btn btn-success\" value=\"Inregistreaza-te\" data-toggle=\"modal\" data-target=\"#registerModal\" />\r\n          <a routerLink=\"/\" class=\"btn btn-default\">Inapoi</a>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</div>\r\n\r\n\r\n<div class=\"modal fade\" id=\"registerModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalCenterTitle\" aria-hidden=\"true\">\r\n    <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\r\n        <div class=\"modal-content\">\r\n\r\n            <div class=\"modal-header\">\r\n                <h5 class=\"modal-title\" id=\"exampleModalCenterTitle\">Adauga un produs nou</h5>\r\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n                    <span aria-hidden=\"true\">&times;</span>\r\n                </button>\r\n            </div>\r\n\r\n            <div class=\"modal-body\">\r\n                <form [formGroup]=\"formAddProduct\">\r\n                    <div class=\"input-group mb-3\">\r\n                        <input type=\"text\" formControlName=\"name\" class=\"form-control\" placeholder=\"Numele produsului\">\r\n                    </div>\r\n\r\n                    <div class=\"input-group mb-3\">\r\n                        <input type=\"number\" formControlName=\"price\" class=\"form-control\" placeholder=\"Pretul produsului\">\r\n                        <div class=\"input-group-append\">\r\n                            <span class=\"input-group-text\">LEI</span>\r\n                        </div>\r\n                    </div>\r\n\r\n                    <div class=\"input-group mb-3\">\r\n                        <textarea class=\"form-control\" formControlName=\"description\" rows=\"5\" placeholder=\"Descrierea produsului\"></textarea>\r\n                    </div>\r\n\r\n                    <div class=\"input-group\">\r\n                        <div class=\"custom-file\">\r\n                            <input type=\"file\" formControlName=\"image\" class=\"custom-file-input\" id=\"importFile\" (change)=\"onFileChange($event)\">\r\n                            <label class=\"custom-file-label\" #labelImport for=\"importFile\"><i class=\"fas fa-search\"></i>Adauga o imagine pentru noul produs</label>\r\n                        </div>\r\n                    </div>\r\n                </form>\r\n            </div>\r\n\r\n            <div class=\"modal-footer\">\r\n                <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\r\n                <button type=\"button\" class=\"btn btn-success\" (click)=\"onSave()\">Save changes</button>\r\n            </div>\r\n\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-md-4 col-md-offset-4\">\r\n    <div *ngIf=\"errorMessage\" class=\"alert alert-warning\">{{errorMessage}}</div>\r\n      <form (submit)=\"onLogin()\" #theForm=\"ngForm\" novalidate>\r\n      <div class=\"form-group\">\r\n        <label for=\"username\">Nume utilizator</label>\r\n        <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"creds.username\" #username=\"ngModel\" required />\r\n        <div class=\"text-danger\" *ngIf=\"username.touched && username.invalid && username.errors.required\">Numele utilizatorului este obligatoriu</div>\r\n      </div>\r\n      <div class=\"form-group\">\r\n          <label for=\"password\">Parola</label>\r\n          <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"creds.password\" #password=\"ngModel\" required />\r\n          <div class=\"text-danger\" *ngIf=\"password.touched && password.invalid && password.errors.required\">Parola este obligatorie</div>\r\n      </div>\r\n      <div class=\"form-group\">\r\n          <input type=\"submit\" class=\"btn btn-success\" value=\"Autentifica-te\" [disabled]=\"theForm.invalid\" />\r\n          <a routerLink=\"/\" class=\"btn btn-default\">Inapoi</a>\r\n      </div>\r\n    </form>\r\n  </div>\r\n</div>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -362,6 +362,14 @@ var DataService = /** @class */ (function () {
             item.quantity = 1;
             this.order.items.push(item);
         }
+    };
+    DataService.prototype.addNewProduct = function (newProduct) {
+        return this.http.post("/api/products", newProduct, {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]().set("Authorization", "Bearer " + this.token)
+        }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["map"])(function (response) {
+            console.log(response);
+            return true;
+        }));
     };
     DataService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Injectable"])(),
@@ -583,11 +591,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "../node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "../node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "../node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _shared_dataService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/dataService */ "./app/shared/dataService.ts");
+
 
 
 
 var Shop = /** @class */ (function () {
-    function Shop() {
+    function Shop(data) {
+        this.data = data;
         this.fileToUpload = null;
         this.formAddProduct = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
             image: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required),
@@ -613,7 +624,10 @@ var Shop = /** @class */ (function () {
             artId: this.labelImport.nativeElement.innerText.split('.')[0]
         };
         console.log(newProduct);
-        // call here add product method from controller in order to insert into db (write in flowers.json)  
+        this.data.addNewProduct(newProduct)
+            .subscribe(function (success) {
+            console.log(success);
+        });
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('labelImport'),
@@ -625,7 +639,7 @@ var Shop = /** @class */ (function () {
             template: __webpack_require__(/*! ./shop.component.html */ "./app/shop/shop.component.html"),
             styles: [__webpack_require__(/*! ./shop.component.css */ "./app/shop/shop.component.css")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_shared_dataService__WEBPACK_IMPORTED_MODULE_3__["DataService"]])
     ], Shop);
     return Shop;
 }());
@@ -695,7 +709,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\projects\others\Florarie\onlineshop\OnlineStore\ClientApp\main.ts */"./main.ts");
+module.exports = __webpack_require__(/*! D:\projects\others\Florarie-git\onlineshop\OnlineStore\ClientApp\main.ts */"./main.ts");
 
 
 /***/ })

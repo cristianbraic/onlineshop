@@ -1,8 +1,10 @@
 import * as tslib_1 from "tslib";
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../shared/dataService';
 var Shop = /** @class */ (function () {
-    function Shop() {
+    function Shop(data) {
+        this.data = data;
         this.fileToUpload = null;
         this.formAddProduct = new FormGroup({
             image: new FormControl('', Validators.required),
@@ -28,7 +30,10 @@ var Shop = /** @class */ (function () {
             artId: this.labelImport.nativeElement.innerText.split('.')[0]
         };
         console.log(newProduct);
-        // call here add product method from controller in order to insert into db (write in flowers.json)  
+        this.data.addNewProduct(newProduct)
+            .subscribe(function (success) {
+            console.log(success);
+        });
     };
     tslib_1.__decorate([
         ViewChild('labelImport'),
@@ -40,7 +45,7 @@ var Shop = /** @class */ (function () {
             templateUrl: "shop.component.html",
             styleUrls: ["shop.component.css"]
         }),
-        tslib_1.__metadata("design:paramtypes", [])
+        tslib_1.__metadata("design:paramtypes", [DataService])
     ], Shop);
     return Shop;
 }());

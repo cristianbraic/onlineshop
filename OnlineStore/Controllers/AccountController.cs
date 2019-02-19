@@ -129,7 +129,8 @@ namespace OnlineStore.Controllers
                         var results = new
                         {
                             token = new JwtSecurityTokenHandler().WriteToken(token),
-                            expiration = token.ValidTo
+                            expiration = token.ValidTo,
+                            model = model
                         };
 
                         return Created("", results);

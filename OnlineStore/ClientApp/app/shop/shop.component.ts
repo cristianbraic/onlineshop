@@ -1,5 +1,6 @@
 ﻿import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DataService } from '../shared/dataService';
 
 @Component({
     selector: "the-shop",
@@ -15,7 +16,7 @@ export class Shop {
     formAddProduct: FormGroup;
     fileToUpload: File = null;
 
-    constructor() {
+    constructor(private data: DataService) {
         this.formAddProduct = new FormGroup({
             image: new FormControl('', Validators.required),
             name: new FormControl('', Validators.required),
@@ -43,6 +44,10 @@ export class Shop {
             artId: this.labelImport.nativeElement.innerText.split('.')[0]
         };
         console.log(newProduct)
-        // call here add product method from controller in order to insert into db (write in flowers.json)  
+
+        this.data.addNewProduct(newProduct)
+            .subscribe(success => {
+                console.log(success)
+            });
     }
 }

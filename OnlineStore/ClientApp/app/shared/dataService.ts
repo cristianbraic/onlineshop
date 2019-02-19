@@ -80,4 +80,16 @@ export class DataService {
             this.order.items.push(item);
         }  
     }
+
+
+    public addNewProduct(newProduct: Object) {
+        return this.http.post("/api/products", newProduct, {
+            headers: new HttpHeaders().set("Authorization", "Bearer " + this.token)
+        }).pipe(
+            map(response => {
+                console.log(response);
+                return true;
+            }));
+     }
+    
 }
